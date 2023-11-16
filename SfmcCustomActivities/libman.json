@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "postmonger@0.0.16",
+      "destination": "wwwroot/lib/postmonger/",
+      "files": [
+        "LICENSE",
+        "package.json",
+        "postmonger.js",
+        "postmonger.min.js",
+        "README.md"
+      ]
+    },
+    {
+      "library": "@salesforce-ux/design-system@2.18.0",
+      "destination": "wwwroot/lib/salesforce-ux/design-system/"
+    }
+  ]
+}

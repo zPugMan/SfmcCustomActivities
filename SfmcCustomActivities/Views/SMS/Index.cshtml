@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "CMH Send SMS";
+}
+
+@section scripts {
+    @*<script type="module" src="~/lib/postmonger/postmonger.js"></script>*@
+    <script src="~/js/sms.js"></script>
+}
+
+<div class="slds-form slds-m-around--medium">
+    <div class="slds-form-element slds-m-bottom_small">
+        <label class="slds-form-element__label" for="sms-keyword-id">SMS Keyword</label>
+        <div class="slds-form-element__control">
+            <input type="text" id="sms-keyword-id" placeholder="SMS Keyword value..." class="slds-input" />
+        </div>
+        <label class="slds-form-element__label" for="contact-phone">Contact Phone</label>
+        <div class="slds-form-element__control">
+            <input type="text" id="contact-phone" placeholder="Contact Phone #..." class="slds-input" />
+        </div>
+        <!--
+        <label class="slds-form-element__label" for="contact-first-name">First Name</label>
+        <div class="slds-form-element__control">
+          <input type="text" id="contact-first-name" placeholder="" class="slds-input" />
+        </div>
+        <label class="slds-form-element__label" for="contact-last-name">Last Name</label>
+        <div class="slds-form-element__control">
+          <input type="text" id="contact-last-name" placeholder="" class="slds-input" />
+        </div>
+        -->
+        <label class="slds-form-element__label" for="sms-message-txt">Message</label>
+        <div class="slds-form-element__control">
+            <textarea id="sms-message-txt" placeholder="" class="slds-input" rows="3"></textarea>
+        </div>
+    </div>
+</div>
+<!-- <div id="discount-code-output" class="slds-text-heading_small"></div> -->
+<div class="slds-docked-form-footer" style="justify-content: flex-end">
+    <button id="cancel" type="button" class="slds-button slds-button_neutral">Cancel</button>
+    <button id="done" disabled type="button" class="slds-button slds-button_brand slds-m-right--medium">Done</button>
+</div>
+
