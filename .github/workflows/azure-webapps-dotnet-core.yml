@@ -59,7 +59,7 @@ jobs:
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Zip artifact
-        run: zip release.zip ./${{env.DOTNET_ROOT}}/* -r
+        run: zip -r release.zip ./${{env.DOTNET_ROOT}}/*
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
