@@ -58,11 +58,14 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Zip artifact
+        run: zip release.zip ./${{env.DOTNET_ROOT}}/* -r
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./release.zip
 
   deploy:
     permissions:
@@ -78,6 +81,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
+
+      - name: Unzip artifact
+        run: unzip release.zip
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

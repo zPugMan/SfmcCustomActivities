@@ -10,6 +10,7 @@ namespace SfmcCustomActivities
             var conf = builder.Configuration;
 
             // Add services to the container.
+            builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddControllersWithViews();
             conf.GetSection("Settings:SMS").Bind(SmsSettings.Instance);
 
