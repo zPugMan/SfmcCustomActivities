@@ -12,6 +12,7 @@ namespace SfmcCustomActivities
             // Add services to the container.
             builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllers();
             conf.GetSection("Settings:SMS").Bind(SmsSettings.Instance);
 
             var app = builder.Build();
