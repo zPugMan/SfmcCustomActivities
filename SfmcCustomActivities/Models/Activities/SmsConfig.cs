@@ -28,7 +28,7 @@ namespace SfmcCustomActivities.Models.Activities
                     workflowApiVersion = "1.1",
                     metaData = new JsonObject()
                     {
-                        ["icon"] = "images/twilio-icon.png",
+                        ["icon"] = "../../images/twilio-icon.png",
                         ["category"] = "message"
                     },
                     type = "REST",
@@ -131,7 +131,7 @@ namespace SfmcCustomActivities.Models.Activities
             {
                 [$"{action}"] = new JsonObject()
                 {
-                    ["url"] = $"https://{host}/Activities/api/SmsApi/publish"
+                    ["url"] = $"https://{host}/Activities/api/SmsApi/{action}"
                 }
             };
         }
