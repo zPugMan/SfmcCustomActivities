@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SfmcCustomActivities.Helpers;
 using SfmcCustomActivities.Models.Activities;
 
 namespace SfmcCustomActivities.Controllers.Activities
 {
+    [DisableSwagger]
     [Route("Activities/[controller]")]
     public class SmsController : Controller
     {
@@ -15,6 +17,7 @@ namespace SfmcCustomActivities.Controllers.Activities
             _log = logger;
         }
 
+        [HttpGet()]
         public IActionResult Index()
         {
             return View();
@@ -35,31 +38,6 @@ namespace SfmcCustomActivities.Controllers.Activities
             return new OkObjectResult(result);
         }
 
-        [HttpPost]
-        public IActionResult Publish(SmsPublish payload)
-        {
-            _log.LogDebug($"Publishing: {payload}");
-            return new OkResult();
-        }
-
-        [HttpPost]
-        public IActionResult Validate(ActivityBase payload)
-        {
-            _log.LogDebug($"Validating: {payload}");
-            return new OkResult();
-        }
-
-        [HttpPost]
-        public IActionResult Stop(ActivityBase payload)
-        {
-            _log.LogDebug($"Stop requested: {payload}");
-            return new OkResult();
-        }
-
-        [HttpPost]
-        public IActionResult Execute(SmsExecute payload)
-        {
-            return new OkResult();
-        }
+        
     }
 }
