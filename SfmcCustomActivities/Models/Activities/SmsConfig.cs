@@ -75,7 +75,7 @@ namespace SfmcCustomActivities.Models.Activities
                                 }
                             }
                         },
-                        ["url"] = $"https://{host}{pathUri}/execute",
+                        ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
                         ["timeout"] = 10000,
                         ["retryCount"] = 3,
                         ["retryDelay"] = 1000,
@@ -86,9 +86,9 @@ namespace SfmcCustomActivities.Models.Activities
                     },
                     configurationArguments = new JsonObject() 
                     {
-                        ["publish"] = GetUrl("publish", host, pathUri),
-                        ["validate"] = GetUrl("validate", host ,pathUri),
-                        ["stop"] = GetUrl("validate", host, pathUri)
+                        ["publish"] = GetUrl("publish", host),
+                        ["validate"] = GetUrl("validate", host),
+                        ["stop"] = GetUrl("validate", host)
                     },
                     userInterfaces = new JsonObject()
                     {
@@ -125,13 +125,13 @@ namespace SfmcCustomActivities.Models.Activities
 
         }
 
-        private static JsonObject GetUrl(string action, string host, string pathUri)
+        private static JsonObject GetUrl(string action, string host)
         {
             return new JsonObject()
             {
                 [$"{action}"] = new JsonObject()
                 {
-                    ["url"] = $"https://{host}{pathUri}/publish"
+                    ["url"] = $"https://{host}/Activities/api/SmsApi/publish"
                 }
             };
         }

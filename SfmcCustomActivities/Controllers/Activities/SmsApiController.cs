@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SfmcCustomActivities.Models.Activities;
+using System.Text.Json;
 
 namespace SfmcCustomActivities.Controllers.Activities
 {
-    [Route("Activities/api/[controller]")]
+    [Route("Activities/api/[controller]/[action]")]
     [ApiController]
     public class SmsApiController : ControllerBase
     {
@@ -17,27 +18,28 @@ namespace SfmcCustomActivities.Controllers.Activities
         [HttpPost]
         public IActionResult Publish(SmsPublish payload)
         {
-            _log.LogDebug($"Publishing: {payload}");
+            _log.LogInformation($"Publishing: {JsonSerializer.Serialize<SmsPublish>(payload)}");
             return new OkResult();
         }
 
         [HttpPost]
         public IActionResult Validate(ActivityBase payload)
         {
-            _log.LogDebug($"Validating: {payload}");
+            _log.LogInformation($"Validating: {JsonSerializer.Serialize<ActivityBase>(payload)}");
             return new OkResult();
         }
 
         [HttpPost]
         public IActionResult Stop(ActivityBase payload)
         {
-            _log.LogDebug($"Stop requested: {payload}");
+            _log.LogInformation($"Stop requested: {JsonSerializer.Serialize<ActivityBase>(payload)}");
             return new OkResult();
         }
 
         [HttpPost]
         public IActionResult Execute(SmsExecute payload)
         {
+            _log.LogInformation($"Execute requested: {JsonSerializer.Serialize<SmsExecute>(payload)}");
             return new OkResult();
         }
     }

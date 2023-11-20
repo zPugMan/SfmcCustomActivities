@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SfmcCustomActivities.Helpers;
 using SfmcCustomActivities.Models.Activities;
 
 namespace SfmcCustomActivities.Controllers.Activities
 {
+    [DisableSwagger]
     [Route("Activities/[controller]")]
     public class SmsController : Controller
     {
@@ -15,6 +17,7 @@ namespace SfmcCustomActivities.Controllers.Activities
             _log = logger;
         }
 
+        [HttpGet()]
         public IActionResult Index()
         {
             return View();
