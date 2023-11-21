@@ -10,17 +10,19 @@ namespace SfmcCustomActivities.Models.Activities
     public static class SmsConfig
     {
 
-        public static JsonValue GetConfigJson(HttpContext httpContext, IWebHostEnvironment env)
+        public static JsonValue? GetConfigJson(HttpContext httpContext, IWebHostEnvironment env)
         {
             string pathUri = httpContext.Request.Path;
             pathUri = pathUri.Substring(0, pathUri.LastIndexOf('/'));
 
             string host = string.Empty;
+
             var fqdnHost = httpContext.Request.Host;
-            if (fqdnHost.Port == 443)
+            if (env.IsProduction())
                 host = fqdnHost.Host;
             else
                 host = $"{fqdnHost.Host}:{fqdnHost.Port}";
+
 
             var json = JsonValue.Create(
                 new
@@ -28,7 +30,7 @@ namespace SfmcCustomActivities.Models.Activities
                     workflowApiVersion = "1.1",
                     metaData = new JsonObject()
                     {
-                        ["icon"] = "images/twilio-icon.png",
+                        ["icon"] = "../../images/twilio-icon.png",
                         ["category"] = "message"
                     },
                     type = "REST",
@@ -61,28 +63,17 @@ namespace SfmcCustomActivities.Models.Activities
                             },
                             ["outArguments"] = new JsonArray()
                             {
-                                new JsonObject()
-                                {
-                                    ["status"] = String.Empty
-                                },
-                                new JsonObject()
-                                {
-                                    ["errorCode"] = null
-                                },
-                                new JsonObject()
-                                {
-                                    ["errorMessage"] = String.Empty
-                                }
-                            }
-                        },
-                        ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
-                        ["timeout"] = 10000,
-                        ["retryCount"] = 3,
-                        ["retryDelay"] = 1000,
-                        ["concurrentRequests"] = SmsSettings.Instance.ConcurrentRequests,
-                        ["format"] = "JSON",
-                        ["useJwt"] = SmsSettings.Instance.JWTEnabled,
-                        ["customerKey"] = Environment.GetEnvironmentVariable("SALT_EXTERNAL_KEY")
+                               
+                            },
+                            ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
+                            ["timeout"] = 10000,
+                            ["retryCount"] = 3,
+                            ["retryDelay"] = 1000,
+                            ["concurrentRequests"] = SmsSettings.Instance.ConcurrentRequests,
+                            ["format"] = "JSON",
+                            ["useJwt"] = SmsSettings.Instance.JWTEnabled,
+                            ["customerKey"] = Environment.GetEnvironmentVariable("SALT_EXTERNAL_KEY")
+                        }
                     },
                     configurationArguments = new JsonObject() 
                     {
@@ -129,10 +120,7 @@ namespace SfmcCustomActivities.Models.Activities
         {
             return new JsonObject()
             {
-                [$"{action}"] = new JsonObject()
-                {
-                    ["url"] = $"https://{host}/Activities/api/SmsApi/publish"
-                }
+                ["url"] = $"https://{host}/Activities/api/SmsApi/{action}"
             };
         }
 
@@ -140,7 +128,7 @@ namespace SfmcCustomActivities.Models.Activities
         {
             return new JsonObject()
             {
-                [$"arg"] = new JsonObject()
+                [$"{arg}"] = new JsonObject()
                 {
                     ["dataType"] = dataType,
                     ["direction"] = direction,

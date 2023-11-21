@@ -18,6 +18,7 @@ namespace SfmcCustomActivities.Controllers.Activities
         }
 
         [HttpGet()]
+        [HttpGet("index.html")]
         public IActionResult Index()
         {
             return View();
