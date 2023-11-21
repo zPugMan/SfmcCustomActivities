@@ -16,11 +16,13 @@ namespace SfmcCustomActivities.Models.Activities
             pathUri = pathUri.Substring(0, pathUri.LastIndexOf('/'));
 
             string host = string.Empty;
+
             var fqdnHost = httpContext.Request.Host;
-            if (fqdnHost.Port == 443)
+            if (env.IsProduction())
                 host = fqdnHost.Host;
             else
                 host = $"{fqdnHost.Host}:{fqdnHost.Port}";
+                
 
             var json = JsonValue.Create(
                 new
