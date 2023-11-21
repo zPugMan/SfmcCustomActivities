@@ -131,10 +131,7 @@ namespace SfmcCustomActivities.Models.Activities
         {
             return new JsonObject()
             {
-                [$"{action}"] = new JsonObject()
-                {
-                    ["url"] = $"https://{host}/Activities/api/SmsApi/{action}"
-                }
+                ["url"] = $"https://{host}/Activities/api/SmsApi/{action}"
             };
         }
 
