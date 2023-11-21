@@ -139,7 +139,7 @@ namespace SfmcCustomActivities.Models.Activities
         {
             return new JsonObject()
             {
-                [$"arg"] = new JsonObject()
+                [$"{arg}"] = new JsonObject()
                 {
                     ["dataType"] = dataType,
                     ["direction"] = direction,
