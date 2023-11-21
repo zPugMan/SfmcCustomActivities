@@ -68,7 +68,7 @@ jobs:
         with:
           name: .net-app
           #path: ${{env.DOTNET_ROOT}}/myapp
-          path: release.zip
+          path: ${{env.DOTNET_ROOT}}/myapp/release.zip
 
   deploy:
     permissions:
