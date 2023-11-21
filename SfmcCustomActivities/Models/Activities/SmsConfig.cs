@@ -75,16 +75,16 @@ namespace SfmcCustomActivities.Models.Activities
                                 {
                                     ["errorMessage"] = String.Empty
                                 }
-                            }
-                        },
-                        ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
-                        ["timeout"] = 10000,
-                        ["retryCount"] = 3,
-                        ["retryDelay"] = 1000,
-                        ["concurrentRequests"] = SmsSettings.Instance.ConcurrentRequests,
-                        ["format"] = "JSON",
-                        ["useJwt"] = SmsSettings.Instance.JWTEnabled,
-                        ["customerKey"] = Environment.GetEnvironmentVariable("SALT_EXTERNAL_KEY")
+                            },
+                            ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
+                            ["timeout"] = 10000,
+                            ["retryCount"] = 3,
+                            ["retryDelay"] = 1000,
+                            ["concurrentRequests"] = SmsSettings.Instance.ConcurrentRequests,
+                            ["format"] = "JSON",
+                            ["useJwt"] = SmsSettings.Instance.JWTEnabled,
+                            ["customerKey"] = Environment.GetEnvironmentVariable("SALT_EXTERNAL_KEY")
+                        }
                     },
                     configurationArguments = new JsonObject() 
                     {
