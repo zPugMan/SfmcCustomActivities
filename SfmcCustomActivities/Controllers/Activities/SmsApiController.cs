@@ -37,10 +37,10 @@ namespace SfmcCustomActivities.Controllers.Activities
         }
 
         [HttpPost]
-        public IActionResult Execute(SmsExecute payload)
+        public ActionResult<ResponseBase> Execute(SmsExecute payload)
         {
             _log.LogInformation($"Execute requested: {JsonSerializer.Serialize<SmsExecute>(payload)}");
-            return new OkResult();
+            return new ResponseBase();
         }
     }
 }
