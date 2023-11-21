@@ -10,7 +10,7 @@ namespace SfmcCustomActivities.Models.Activities
     public static class SmsConfig
     {
 
-        public static JsonValue GetConfigJson(HttpContext httpContext, IWebHostEnvironment env)
+        public static JsonValue? GetConfigJson(HttpContext httpContext, IWebHostEnvironment env)
         {
             string pathUri = httpContext.Request.Path;
             pathUri = pathUri.Substring(0, pathUri.LastIndexOf('/'));
@@ -22,7 +22,7 @@ namespace SfmcCustomActivities.Models.Activities
                 host = fqdnHost.Host;
             else
                 host = $"{fqdnHost.Host}:{fqdnHost.Port}";
-                
+
 
             var json = JsonValue.Create(
                 new

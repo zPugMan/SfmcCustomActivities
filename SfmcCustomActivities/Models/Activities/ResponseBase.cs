@@ -24,6 +24,6 @@ namespace SfmcCustomActivities.Models.Activities
         public int ErrorCode { get; set; }
 
         [JsonPropertyName("errorMessage")]
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
     }
 }

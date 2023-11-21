@@ -40,7 +40,10 @@ namespace SfmcCustomActivities.Controllers.Activities
         public ActionResult<ResponseBase> Execute(SmsExecute payload)
         {
             _log.LogInformation($"Execute requested: {JsonSerializer.Serialize<SmsExecute>(payload)}");
-            return new ResponseBase();
+            _log.LogInformation($"Message request: {payload.InArguments.First().SmsMessage}");
+            var result = new ResponseBase();
+            _log.LogInformation($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
+            return result; 
         }
     }
 }

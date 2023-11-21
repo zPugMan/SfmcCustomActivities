@@ -7,7 +7,7 @@ namespace SfmcCustomActivities.Models.Activities
     {
         [JsonPropertyName("activityObjectID")]
         [JsonRequired]
-        public string ActivityObjectId { get; set; }
+        public string? ActivityObjectId { get; set; }
 
         public string? InteractionId { get; set; }
 
