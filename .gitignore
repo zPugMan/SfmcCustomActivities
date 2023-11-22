@@ -266,3 +266,5 @@ __pycache__/
 # libman should handle external libraries
 **/lib/postmonger
 **/lib/salesforce-ux
+
+**/appsettings.Development.json
