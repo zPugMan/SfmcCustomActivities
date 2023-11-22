@@ -1,5 +1,7 @@
 using SfmcCustomActivities.Helpers;
 using SfmcCustomActivities.Services;
+using Microsoft.Extensions.Azure;
+using Azure.Messaging.ServiceBus;
 
 namespace SfmcCustomActivities
 {
@@ -14,11 +16,26 @@ namespace SfmcCustomActivities
             builder.Services.AddApplicationInsightsTelemetry();
             builder.Services.AddControllersWithViews();
             builder.Services.AddControllers();
-            //builder.Services.AddApiExplorer();
             builder.Services.AddSwaggerGen(c => {
                 c.DocumentFilter<DisableSwaggerFilter>();
             });
             conf.GetSection("Settings:SMS").Bind(SmsSettings.Instance);
+
+            //Singleton for Azure service bus
+            var busConnect = conf.GetSection("Settings:ServiceBus").GetValue<string>("ConnectionString");
+            var queue = conf.GetSection("Settings:ServiceBus").GetValue<string>("SendQueue");
+            if (!string.IsNullOrEmpty(busConnect) && !string.IsNullOrEmpty(queue))
+            {
+                builder.Services.AddAzureClients(xx =>
+                {
+                    xx.AddServiceBusClient(busConnect);
+                    xx.AddClient<ServiceBusSender, ServiceBusSenderOptions>((_, _, provider) =>
+                        provider.GetService<ServiceBusClient>()
+                            .CreateSender(queue)
+                    )
+                    .WithName("SendQueue");
+                });
+            }
 
             var app = builder.Build();
 

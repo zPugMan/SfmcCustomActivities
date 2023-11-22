@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Messaging.ServiceBus;
+using Microsoft.AspNetCore.Mvc;
 using SfmcCustomActivities.Models.Activities;
+using SfmcCustomActivities.Models.Services;
 using System.Text.Json;
+using Azure.Core.Extensions;
+using Microsoft.Extensions.Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace SfmcCustomActivities.Controllers.Activities
 {
@@ -9,10 +14,14 @@ namespace SfmcCustomActivities.Controllers.Activities
     public class SmsApiController : ControllerBase
     {
         private readonly ILogger _log;
+        private readonly ServiceBusSender _azureSend;
+        private readonly IConfiguration _conf;
 
-        public SmsApiController(ILogger<SmsApiController> log)
+        public SmsApiController(ILogger<SmsApiController> log, IAzureClientFactory<ServiceBusSender> azureSend, IConfiguration conf)
         {
             _log = log;
+            _azureSend = azureSend.CreateClient("SendQueue");
+            _conf = conf;
         }
 
         [HttpPost]
@@ -37,13 +46,33 @@ namespace SfmcCustomActivities.Controllers.Activities
         }
 
         [HttpPost]
-        public ActionResult<ResponseBase> Execute(SmsExecute payload)
+        public async Task<ActionResult<ResponseBase>> Execute(SmsExecute payload)
         {
             _log.LogInformation($"Execute requested: {JsonSerializer.Serialize<SmsExecute>(payload)}");
-            _log.LogInformation($"Message request: {payload.InArguments.First().SmsMessage}");
+
             var result = new ResponseBase();
-            _log.LogInformation($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
-            return result; 
+            try
+            {
+                SmsRequest sms = new SmsRequest(_conf, payload);
+                var msg = new ServiceBusMessage(JsonSerializer.Serialize<SmsRequest>(sms));
+                msg.ContentType = "application/json";
+                msg.CorrelationId = payload.ActivityInstanceId;
+
+                await _azureSend.SendMessageAsync(msg);
+                _log.LogInformation($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
+                return result;
+
+            } catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+                result.ErrorCode = -500;
+                result.Status = "Fail";
+                _log.LogWarning($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+            
+            
+             
         }
     }
 }
