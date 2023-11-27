@@ -34,6 +34,7 @@ namespace SfmcCustomActivities.Helpers
                     var stream = jsonBody.ReadAsStream();
                     context.Request.Body = stream;
                     context.Request.ContentType = "application/json";
+                    context.Request.ContentLength = stream.Length;
                 }
             }
 
