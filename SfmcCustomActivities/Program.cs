@@ -30,7 +30,7 @@ namespace SfmcCustomActivities
                 {
                     xx.AddServiceBusClient(busConnect);
                     xx.AddClient<ServiceBusSender, ServiceBusSenderOptions>((_, _, provider) =>
-                        provider.GetService<ServiceBusClient>()
+                        provider.GetRequiredService<ServiceBusClient>()
                             .CreateSender(queue)
                     )
                     .WithName("SendQueue");
@@ -60,6 +60,8 @@ namespace SfmcCustomActivities
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtRequestMiddleware>();
 
             app.MapControllerRoute(
                name: "default",

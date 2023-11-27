@@ -9,5 +9,7 @@
         public int ConcurrentRequests { get; set; }
         public bool JWTEnabled { get; set; }
 
+        public string? JWTSecret { get; set;}
+
     }
 }
