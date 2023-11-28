@@ -58,6 +58,9 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: dotnet test
+        run: dotnet test
+
       - name: Zip artifact
         run: |
           cd ${{env.DOTNET_ROOT}}/myapp
