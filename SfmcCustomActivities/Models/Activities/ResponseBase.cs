@@ -6,7 +6,7 @@ namespace SfmcCustomActivities.Models.Activities
     {
         public ResponseBase()
         {
-            Status = "Ok";
+            Status = "Success";
             ErrorCode= 0;
         }
 

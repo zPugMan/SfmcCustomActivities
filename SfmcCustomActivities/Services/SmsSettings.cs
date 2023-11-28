@@ -11,5 +11,7 @@
 
         public string? JWTSecret { get; set;}
 
+        public string? JWTCustomerKey { get; set; }
+
     }
 }

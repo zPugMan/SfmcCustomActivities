@@ -72,7 +72,7 @@ namespace SfmcCustomActivities.Models.Activities
                             ["concurrentRequests"] = SmsSettings.Instance.ConcurrentRequests,
                             ["format"] = "JSON",
                             ["useJwt"] = SmsSettings.Instance.JWTEnabled,
-                            ["customerKey"] = Environment.GetEnvironmentVariable("SALT_EXTERNAL_KEY")
+                            ["customerKey"] = SmsSettings.Instance.JWTCustomerKey
                         }
                     },
                     configurationArguments = new JsonObject() 
@@ -94,17 +94,26 @@ namespace SfmcCustomActivities.Models.Activities
                     {
                         ["arguments"] = new JsonObject()
                         {
-                            ["inArguments"] = new JsonArray
+                            ["execute"] = new JsonObject()
                             {
-                                GetSchemaArg("smsKeyword", "Text"),
-                                GetSchemaArg("smsPhone", "Text"),
-                                GetSchemaArg("smsMessage", "Text")
-                            },
-                            ["outArguments"] = new JsonArray
-                            {
-                                GetSchemaArg("status","Text", direction: "out"),
-                                GetSchemaArg("errorCode","Number", direction: "out"),
-                                GetSchemaArg("errorMessage","Text", direction: "out")
+                                ["inArguments"] = new JsonArray
+                                {
+                                    new JsonObject()
+                                    {
+                                        GetSchemaArg("smsKeyword", "Text"),
+                                        GetSchemaArg("smsPhone", "Text"),
+                                        GetSchemaArg("smsMessage", "Text")
+                                    }
+                                },
+                                ["outArguments"] = new JsonArray
+                                {
+                                    new JsonObject()
+                                    {
+                                        GetSchemaArg("status","Text", direction: "out"),
+                                        GetSchemaArg("errorCode","Number", direction: "out"),
+                                        GetSchemaArg("errorMessage","Text", direction: "out")
+                                    }
+                                }
                             }
                         }
                     }
@@ -124,17 +133,16 @@ namespace SfmcCustomActivities.Models.Activities
             };
         }
 
-        private static JsonObject GetSchemaArg(string arg, string dataType, string direction = "in", string access = "visible")
+        private static KeyValuePair<string, JsonNode?> GetSchemaArg(string arg, string dataType, string direction = "in", string access = "visible")
         {
-            return new JsonObject()
+            var snippet = new JsonObject()
             {
-                [$"{arg}"] = new JsonObject()
-                {
-                    ["dataType"] = dataType,
-                    ["direction"] = direction,
-                    ["access"] = access
-                }
+                ["dataType"] = dataType,
+                ["direction"] = direction,
+                ["access"] = access
             };
+
+            return new KeyValuePair<string, JsonNode?>(arg, snippet);
         }
     }
 }
