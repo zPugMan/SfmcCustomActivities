@@ -39,6 +39,8 @@ namespace SfmcCustomActivities.Tests.Controllers.Activities
             Assert.IsTrue(result.StatusCode == 400, $"Expecting HTTP400 BadReqeust, received: {result.StatusCode}");
         }
 
+        //TODO Mocks are failing..return when time/need
+
         //[TestMethod]
         //public async Task Execute_FailedServiceBus()
         //{
@@ -47,8 +49,8 @@ namespace SfmcCustomActivities.Tests.Controllers.Activities
         //    var mockConf = new Mock<IConfiguration>();
 
         //    var mockAzure = new Mock<IAzureClientFactory<ServiceBusSender>>();
-        //    mockAzure.Setup(x => x.CreateClient(It.IsAny<string>()))
-        //        .Returns<ServiceBusSender>( res =>
+        //    mockAzure.Setup(x => x.CreateClient("test-queue"))
+        //        .Returns<ServiceBusSender>(res =>
         //        {
         //            var mockAzureSend = new Mock<ServiceBusSender>();
         //            mockAzureSend
@@ -70,6 +72,38 @@ namespace SfmcCustomActivities.Tests.Controllers.Activities
         //    StatusCodeResult result = (StatusCodeResult)response.Result;
         //    Assert.IsTrue(result.StatusCode == 500, $"Expecting HTTP500, received {result.StatusCode}");
 
+        //}
+
+        //[TestMethod]
+        //public async Task Execute_OK()
+        //{
+        //    //arrange
+        //    var request = FormRequest("5558675309", "test -message");
+        //    var mockConf = new Mock<IConfiguration>();
+
+        //    var mockAzure = new Mock<IAzureClientFactory<ServiceBusSender>>();
+        //    mockAzure.Setup(x => x.CreateClient("SendQueue"))
+        //        .Returns<ServiceBusSender>(res =>
+        //        {
+        //            var mockAzureSend = new Mock<ServiceBusSender>();
+        //            mockAzureSend
+        //                .Setup(y => y.SendMessageAsync(It.IsAny<ServiceBusMessage>(), It.IsAny<CancellationToken>()))
+        //                .Returns(Task.FromResult(default(object)));
+
+        //            return mockAzureSend.Object;
+        //        }
+        //        );
+
+        //    var controller = new SmsApiController(_log, mockAzure.Object, mockConf.Object);
+
+        //    //act
+        //    var response = await controller.Execute(request);
+
+        //    //assert
+        //    Assert.IsTrue(response.Result!.GetType() == typeof(StatusCodeResult), $"Response type mismatch, recieved {response.Result!.GetType()}");
+
+        //    StatusCodeResult result = (StatusCodeResult)response.Result;
+        //    Assert.IsTrue(result.StatusCode==200, $"Expecting HTTP200, received: {result.StatusCode}");
         //}
 
         private static IEnumerable<object[]> TestRequests

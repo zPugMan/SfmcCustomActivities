@@ -14,13 +14,13 @@ namespace SfmcCustomActivities.Controllers.Activities
     public class SmsApiController : ControllerBase
     {
         private readonly ILogger _log;
-        private readonly ServiceBusSender _azureSend;
+        private readonly IAzureClientFactory<ServiceBusSender> _azureSend;
         private readonly IConfiguration _conf;
 
         public SmsApiController(ILogger<SmsApiController> log, IAzureClientFactory<ServiceBusSender> azureSend, IConfiguration conf)
         {
             _log = log;
-            _azureSend = azureSend.CreateClient("SendQueue");
+            _azureSend = azureSend; //.CreateClient("SendQueue");
             _conf = conf;
         }
 
@@ -53,6 +53,7 @@ namespace SfmcCustomActivities.Controllers.Activities
             var result = new ResponseBase();
             try
             {
+                var azClient = _azureSend.CreateClient("SendQueue");
                 SmsRequest sms = new SmsRequest(_conf, _log, payload);
                 if (!sms.IsValid())
                 {
@@ -60,12 +61,11 @@ namespace SfmcCustomActivities.Controllers.Activities
                     return new BadRequestObjectResult(new ResponseBase(status: "Error", errorCode: 400, errorMessage: "Missing required SMS information"));
                 }
 
-
                 var msg = new ServiceBusMessage(JsonSerializer.Serialize<SmsRequest>(sms));
                 msg.ContentType = "application/json";
                 msg.CorrelationId = payload.ActivityInstanceId;
 
-                await _azureSend.SendMessageAsync(msg);
+                await azClient.SendMessageAsync(msg);
                 _log.LogInformation($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
                 return result;
 
