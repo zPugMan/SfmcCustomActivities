@@ -60,7 +60,8 @@ namespace SfmcCustomActivities.Controllers.Activities
 
                 await _azureSend.SendMessageAsync(msg);
                 _log.LogInformation($"Response: {JsonSerializer.Serialize<ResponseBase>(result)}");
-                return result;
+                return new ObjectResult(result) { StatusCode = StatusCodes.Status201Created };
+                //return result;
 
             } catch (Exception ex)
             {
