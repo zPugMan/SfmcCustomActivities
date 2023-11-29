@@ -7,24 +7,22 @@ namespace SfmcCustomActivities.Models.Services
 
     public class SmsRequest
     {
-        public SmsRequest(IConfiguration conf) 
-        {
-            var app = conf.GetSection("Settings:ServiceBus").GetValue<string>("AppName");
+        private readonly IConfiguration _conf;
+        private readonly ILogger _log;
+        private const string DEFAULT_APP = "SFMC";
 
-            if(string.IsNullOrEmpty(app))
-                Source = "SFMC";
-            else
-                Source = app;
+        public SmsRequest(IConfiguration conf, ILogger log) 
+        {
+            _conf = conf;
+            _log = log;
+            Init();
         }
 
-        public SmsRequest(IConfiguration conf, SmsExecute request)
+        public SmsRequest(IConfiguration conf, ILogger log, SmsExecute request)
         {
-            var app = conf.GetSection("Settings:ServiceBus").GetValue<string>("AppName");
-
-            if (string.IsNullOrEmpty(app))
-                Source = "SFMC";
-            else
-                Source = app;
+            _conf = conf;
+            _log = log;
+            Init();
 
             if (request.InArguments != null && request.InArguments.Count > 0)
             {
@@ -33,6 +31,41 @@ namespace SfmcCustomActivities.Models.Services
             }
 
             TrackingID = request.ActivityInstanceId;
+        }
+
+        private void Init()
+        {
+            string app = string.Empty;
+            try
+            {
+                app = _conf.GetSection("Settings:ServiceBus").GetValue<string>("AppName")!;
+            }
+            catch (NullReferenceException e)
+            {
+                _log.LogWarning($"No value for `Settings:ServiceBus:AppName`. Using default: {DEFAULT_APP}");
+            }
+
+            if (string.IsNullOrEmpty(app))
+                Source = DEFAULT_APP;
+            else
+                Source = app;
+        }
+
+        public bool IsValid()
+        {
+            if(string.IsNullOrEmpty(ToPhone))
+                return false;
+
+            if(string.IsNullOrEmpty(Message)) 
+                return false;
+
+            if(string.IsNullOrEmpty(Source)) 
+                return false;
+
+            if(ToPhone.Length < 10)
+                return false;
+
+            return true;
         }
 
 

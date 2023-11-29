@@ -72,10 +72,12 @@ namespace SfmcCustomActivities.Helpers
             catch (SignatureVerificationException e)
             {
                 _log.LogError("Token has invalid signature", e);
+                throw;
             }
             catch (Exception e)
             {
                 _log.LogError($"Exception in JwtVerification: {e.Message}", e);
+                throw;
             }
             return result;
         }
