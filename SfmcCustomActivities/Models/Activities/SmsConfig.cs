@@ -7,6 +7,10 @@ using System.Text.Json.Serialization;
 
 namespace SfmcCustomActivities.Models.Activities
 {
+    /// <summary>
+    /// Forms the config.json as dictated by SFMC
+    /// <br></br>Reference: <see href="https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/custom-activity-config.html"/>
+    /// </summary>
     public static class SmsConfig
     {
 

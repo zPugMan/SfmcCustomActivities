@@ -1,6 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 namespace SfmcCustomActivities.Models.Activities
 {
+    /// <summary>
+    /// Base payload structure for the SFMC execute request
+    /// </summary>
     public class SmsExecute : ActivityBase
     {
         [JsonPropertyName("journeyId")]
@@ -28,6 +31,9 @@ namespace SfmcCustomActivities.Models.Activities
         public List<ExecuteOutputs>? OutArguments { get; set; }
     }
 
+    /// <summary>
+    /// Input arguments to the SFMC execute request
+    /// </summary>
     public class ExecuteInputs
     {
         [JsonPropertyName("smsKeyword")]

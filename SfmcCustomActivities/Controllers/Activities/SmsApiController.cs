@@ -53,7 +53,14 @@ namespace SfmcCustomActivities.Controllers.Activities
             var result = new ResponseBase();
             try
             {
-                SmsRequest sms = new SmsRequest(_conf, payload);
+                SmsRequest sms = new SmsRequest(_conf, _log, payload);
+                if (!sms.IsValid())
+                {
+                    _log.LogWarning($"{nameof(SmsRequest)} is invalid.. returning failure");
+                    return new BadRequestObjectResult(new ResponseBase(status: "Error", errorCode: 400, errorMessage: "Missing required SMS information"));
+                }
+
+
                 var msg = new ServiceBusMessage(JsonSerializer.Serialize<SmsRequest>(sms));
                 msg.ContentType = "application/json";
                 msg.CorrelationId = payload.ActivityInstanceId;
