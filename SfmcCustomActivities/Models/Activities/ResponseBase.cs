@@ -8,6 +8,7 @@ namespace SfmcCustomActivities.Models.Activities
         {
             Status = "Success";
             ErrorCode= 0;
+            ErrorMessage = string.Empty;
         }
 
         public ResponseBase(string status, int errorCode, string errorMessage)

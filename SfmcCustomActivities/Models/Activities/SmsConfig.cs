@@ -67,18 +67,7 @@ namespace SfmcCustomActivities.Models.Activities
                             },
                             ["outArguments"] = new JsonArray()
                             {
-                               new JsonObject()
-                               {
-                                   ["status"] = string.Empty
-                               },
-                               new JsonObject()
-                               {
-                                   ["errorCode"] = 0
-                               },
-                               new JsonObject()
-                               {
-                                   ["errorMessage"] = string.Empty
-                               }
+                               
                             },
                             ["url"] = $"https://{host}/Activities/api/SmsApi/execute",
                             ["timeout"] = 10000,
